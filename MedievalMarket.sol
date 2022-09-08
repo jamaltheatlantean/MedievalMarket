@@ -23,7 +23,7 @@ contract MediMarket {
         uint256 timestamp
         );
 
-    // log out weapon created
+    // logs out weapon created
     event Created(
         uint8 id,
         address indexed seller,
@@ -45,9 +45,9 @@ contract MediMarket {
     }
 
     WeaponStruct[] public weapons;
-    mapping(address => WeaponStruct[]) weaponsOf;
+    mapping(address => WeaponStruct[]) public weaponsOf;
     mapping(uint8 => address) public sellerOf;
-    mapping(uint8 => bool) weaponExists; // confirm that weapon exist
+    mapping(uint8 => bool) weaponExists;
 
     function createWeapon(uint8 cost, 
         string memory blacksmith, 
@@ -73,7 +73,7 @@ contract MediMarket {
             )
         ); 
 
-        // record weapon selling details
+        // add to record, the blacksmith and the weapon
         sellerOf[totalSupply] = msg.sender;
         weaponExists[totalSupply] = true;
 
@@ -82,10 +82,10 @@ contract MediMarket {
     }
 
     function payForWeapon(uint8 id) public payable returns (bool) {
-        require(weaponExists[id], "weapon does not exist, go to another market");
-        require(msg.value >= weapons[id - 1].cost, "not enough gold peasant");
+        require(weaponExists[id], "weapon does not exist, go to another market"); // using require, not revert
+        require(msg.value >= weapons[id - 1].cost, "not enough gold peasant, lol");
 
-        // compute payment
+        // tally payment
         address seller = sellerOf[id];
         uint256 tax = (msg.value / 100) * TAX_FEE;
         uint256 payment = msg.value - tax;
@@ -95,6 +95,7 @@ contract MediMarket {
         payTo(taxAccount, tax); // the sheriff needs his quota
 
         // hand over the purchased weapon
+        // thank you for stopping by!
         weaponsOf[msg.sender].push(weapons[id - 1]);
 
         emit Sale(id, 
@@ -108,8 +109,8 @@ contract MediMarket {
 
     // The various method of transfer
     // transfer, send, and call
-    // the call method has been confirmed to be the safest, and bestn against 
-    // notorious block-chain bandits that'll lock up the funds
+    // the call method has been confirmed to be the safest, and best against 
+    // notorious block-chain bandits that'll attempt to lock up the funds
 
     function transferTo(address to, uint256 amount) internal returns (bool)
     {
