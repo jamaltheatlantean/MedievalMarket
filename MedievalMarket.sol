@@ -8,12 +8,12 @@ pragma solidity ^0.8.0;
  */
 
 contract MediMarket {
-    uint256 public constant MINIMUM_DONATION = 50 * 1e18; // minimum donation is $50
+    uint256 public constant MINIMUM_DONATION = 50 * 1e18;
     uint256 public constant TAX_FEE = 25 * 1e18; // tax for the sheriff 
     address immutable taxAccount; // acct of the sheriff
     uint8 totalSupply = 0; // set total supply of weapons to 0
 
-    // define events of the market
+    // Events
     // logs out sales record
     event Sale(
         uint8 id,
@@ -60,7 +60,6 @@ contract MediMarket {
         require(cost > 0 ether, "no cost, no taxes");
 
         // add weapon to market
-
         weapons.push(
             WeaponStruct(
                 totalSupply++,
@@ -73,7 +72,7 @@ contract MediMarket {
             )
         ); 
 
-        // add to record, the blacksmith and the weapon
+        // save to record: the blacksmith, and the weapon
         sellerOf[totalSupply] = msg.sender;
         weaponExists[totalSupply] = true;
 
