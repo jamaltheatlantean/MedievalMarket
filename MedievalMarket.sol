@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: MIT
-
 pragma solidity ^0.8.0;
 
 /** @title A fun solidity contract for Nottingham Markets if they were on chain
