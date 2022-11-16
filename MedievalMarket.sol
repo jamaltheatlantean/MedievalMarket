@@ -29,7 +29,8 @@ contract MediMarket {
     );
 
     constructor() {
-        taxAccount = msg.sender; // i'm the sherriff lol
+        // declare sherriff
+        taxAccount = msg.sender; 
     }
 
     struct WeaponStruct {
