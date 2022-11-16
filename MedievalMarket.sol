@@ -5,7 +5,6 @@ pragma solidity ^0.8.0;
  * @author Jamal'TheAtlantean
  * @dev the contract includes the 3 methods of safely sending ETH
  */
-
 contract MediMarket {
     uint256 public constant MINIMUM_DONATION = 50 * 1e18;
     uint256 public constant TAX_FEE = 25 * 1e18; // tax for the sheriff 
